@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import WorksPage from "@/components/WorksPage";
-import AboutPage from "@/components/AboutPage";
 import ServicesPage from "@/components/ServicesPage";
 import BlogPage from "@/components/BlogPage";
 import ContactsPage from "@/components/ContactsPage";
@@ -19,11 +18,6 @@ export default createRouter({
             path: '/works',
             name: 'Works',
             component: WorksPage
-        },
-        {
-            path: '/about',
-            name: 'About',
-            component: AboutPage
         },
         {
             path: '/services',

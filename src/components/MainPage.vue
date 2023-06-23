@@ -14,7 +14,7 @@
       <p class="main-text">Увлеченная креативная студия, помогающая стартапам развивать свой бизнес!</p>
     </main>
 
-    <footer>
+    <footer id="#about">
       <h1 class="footer-head"
           v-for="(num, index) in numbers"
           :key="num.id"
@@ -44,10 +44,9 @@ export default {
     return {
       headings: [
         { id: 1, text: "Работы", path: '/works'},
-        { id: 2, text: "О нас", path: '/about'},
-        { id: 3, text: "Услуги", path: '/services'},
-        { id: 4, text: "Блог", path: '/blog'},
-        { id: 5, text: "Контакты", path: '/contacts'}
+        { id: 2, text: "Услуги", path: '/services'},
+        { id: 3, text: "Блог", path: '/blog'},
+        { id: 4, text: "Контакты", path: '/contacts'}
       ],
       numbers: [
         { id: 1, numb: "01" },
