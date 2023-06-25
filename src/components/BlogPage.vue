@@ -2,15 +2,31 @@
   <div class="blog-page">
     <h1 class="blog-page-head"><span>Ком</span>анда</h1>
     <div class="blog-text-one">
-      <figure class="blog-text-two" v-for="block in blocks"
-              :key="block.id">
+      <figure
+          class="blog-text-two"
+          v-for="block in blocks"
+          :key="block.id"
+          v-on:mouseover="toggleDescription(block)">
         <img :src="block.img" alt="">
         <figcaption>
-          <h1>{{block.title}}</h1>
-          <h2>{{block.work}}</h2>
-          <p>{{block.description}}</p>
+          <h1>{{ block.title }}</h1>
+          <h2>{{ block.work }}</h2>
+          <p>{{ block.description }}</p>
         </figcaption>
       </figure>
+      <div class="block-details" v-if="activeBlock">
+        <p>{{ activeBlock.text }}</p>
+        <p>
+          <span class="blog-p-style">{{ activeBlock.title + " / "}}</span>
+          {{ activeBlock.work }}
+        </p>
+        <div class="star-rating">
+          <span class="star"
+                v-for="star in 5"
+                :key="star.id"
+                :class="{ 'star-filled': star <= activeBlock.stars }"></span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -18,37 +34,117 @@
 <script>
 export default {
   name: "BlogPage",
-  data(){
-    return{
+  data() {
+    return {
       blocks: [
         {
           id: 1,
-          img: require("../assets/image1.svg"),
+          img: require("../assets/team1.png"),
           title: "Том Джонс",
           work: "Креативный директор",
-          description: "Создавай простым то, что могло быть сложным!"
+          description: "Создавай простым то, что могло быть сложным!",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
+              "labore et dolore magna aliqua. Ut enim ad minim " +
+              "veniam, quis nostrud exercitation " +
+              "ullamco laboris nisi ut aliquip ex" +
+              " ea commodo consequat.",
+          stars: 4,
         },
         {
           id: 2,
-          img: require("../assets/image2.svg"),
-          title: "Том Джонс",
-          work: "Креативный директор",
-          description: "Создавай простым то, что могло быть сложным!"
+          img: require("../assets/team2.png"),
+          title: "София Краснина",
+          work: "Арт директор",
+          description: 'Будь легче, когда можешь "быть"!',
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
+              "labore et dolore magna aliqua. Ut enim ad minim " +
+              "veniam, quis nostrud exercitation " +
+              "ullamco laboris nisi ut aliquip ex" +
+              " ea commodo consequat.",
+          stars: 5,
         },
         {
           id: 3,
-          img: require("../assets/image3.svg"),
-          title: "Том Джонс",
-          work: "Креативный директор",
-          description: "Создавай простым то, что могло быть сложным!"
-        }
-      ]
-    }
-  }
-}
+          img: require("../assets/team3.png"),
+          title: "Арина Велидинчева",
+          work: "Дизайнер",
+          description: "Твори, создавай, одним словом - вдохновляйся на подвиги",
+          text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut " +
+              "labore et dolore magna aliqua. Ut enim ad minim " +
+              "veniam, quis nostrud exercitation " +
+              "ullamco laboris nisi ut aliquip ex" +
+              " ea commodo consequat.",
+          stars: 3,
+        },
+      ],
+      activeBlock: null,
+    };
+  },
+  methods: {
+    toggleDescription(block) {
+      if (this.activeBlock === block) {
+        this.activeBlock = null;
+      } else {
+        this.activeBlock = block;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">
+.star-rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url('../assets/1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.star-filled {
+  background-image: url('../assets/2.png');
+}
+
+.block-details span{
+  color: #000;
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-family: Oswald, sans-serif;
+  letter-spacing: 1.152px;
+}
+
+.block-details {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  padding: 10px 250px;
+  color: #000;
+  opacity: 0;
+  transition: opacity 0.3s, bottom 0.3s;
+}
+
+.block-details p{
+  font-family: 'OpenSans', sans-serif;
+  font-size: 14px;
+  line-height: 31px;
+  letter-spacing: 0.896px;
+
+  color: #373737;
+}
+
+.blog-text-one:hover .block-details {
+  opacity: 1;
+  bottom: 0;
+}
 .blog-page {
   display: grid;
   padding: 45px 100px;
@@ -84,7 +180,7 @@ export default {
   z-index: 1;
   display: inline-block;
   overflow: hidden;
-  background: #527c82;
+  background: #a4a4a4;
   text-align: center;
   cursor: pointer;
 }
@@ -97,10 +193,7 @@ export default {
 }
 
 .blog-text-one figure figcaption {
-  padding: 2em;
   color: #fff;
-  text-transform: uppercase;
-  font-size: 1.25em;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
@@ -119,12 +212,10 @@ export default {
 }
 
 .blog-text-one figure h1 {
-  word-spacing: -0.15em;
+  font-family: 'Oswald', sans-serif;
   font-weight: 300;
-}
-
-.blog-text-one figure h1 {
-  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 1.2px;
 }
 
 .blog-text-one figure h1,
@@ -133,14 +224,22 @@ export default {
   margin: 0;
 }
 
-.blog-text-one figure h2,
-.blog-text-one figure p {
-  letter-spacing: 1px;
-  font-size: 68.5%;
-  margin-bottom: -10px; /* Устанавливаем отрицательный margin-bottom */
+.blog-text-one figure h2{
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 18px;
+  letter-spacing: 1.2px;
+
+  color: #fff;
 }
 
-/* Эффект при наведении */
+.blog-text-one figure p {
+  font-family: 'OpenSans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 20px;
+}
+
 figure.blog-text-two figcaption::before {
   position: absolute;
   top: 0;
@@ -157,10 +256,10 @@ figure.blog-text-two figcaption::before {
 
 figure.blog-text-two h1 {
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 0;
   width: 100%;
-  color: #f66d52 !important;
+  color: #fff !important;
   -webkit-transition: -webkit-transform 0.35s, color 0.35s;
   transition: transform 0.35s, color 0.35s;
   -webkit-transform: translate3d(0,-50%,0);
@@ -176,7 +275,7 @@ figure.blog-text-two p {
 
 figure.blog-text-two h2{
   position: absolute;
-  bottom: 20%;
+  bottom: 10%;
   left: 0;
   padding: 2em;
   width: 100%;
@@ -187,7 +286,7 @@ figure.blog-text-two h2{
 
 figure.blog-text-two p {
   position: absolute;
-  bottom: 0;
+  bottom: 2%;
   left: 0;
   padding: 2em;
   width: 100%;
@@ -200,6 +299,18 @@ figure.blog-text-two:hover h1 {
   color: #fff;
   -webkit-transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
   transform: translate3d(0,-50%,0) translate3d(0,-40px,0);
+}
+
+.blog-text-one figure h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  margin-bottom: -30px;
+  width: 25%;
+  height: 3px;
+  background-color: #fff;
 }
 
 figure.blog-text-two:hover figcaption::before,
